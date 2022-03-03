@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Module db_storage with class DBStorage"""
+"""Module db_storage w/ class DBStorage"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
@@ -21,7 +21,7 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """Initialization method"""
+        """The Initialization method"""
         user = getenv('HBNB_MYSQL_USER')
         pwd = getenv('HBNB_MYSQL_PWD')
         host = getenv('HBNB_MYSQL_HOST')
@@ -33,7 +33,8 @@ class DBStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of selected class in DB or
-        all classes if none are passes as argument."""
+        all classes if none pass as argument.
+        """
         obj_dict = {}
 
         if cls is None:
@@ -46,7 +47,7 @@ class DBStorage:
         return obj_dict
 
     def new(self, obj):
-        """Adds obj to the current db session."""
+        """Adds an obj to the current db session."""
         if type(obj) in valid_instances:
             self.__session.add(obj)
 
@@ -56,11 +57,11 @@ class DBStorage:
     
     def delete(self, obj=None):
         """Deletes object from current DB session"""
-        if obj != None:
+        if obj:
             self.__session.delete(obj)
 
     def reload(self):
-        """Reload all tables from the database"""
+        """Reloads all tables from the DB"""
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(sessionmaker(bind=self.__engine,
                                                      expire_on_commit=False))
