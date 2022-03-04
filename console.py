@@ -4,7 +4,7 @@ import cmd
 import sys
 import re
 from models.base_model import BaseModel
-from models.__init__ import storage
+from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -142,7 +142,8 @@ class HBNBCommand(cmd.Cmd):
                 i += 1
         new_instance = HBNBCommand.classes[class_name]()
         new_instance.__dict__.update(kwargs)
-        new_instance.save()
+        storage.new(new_instance)
+        storage.save()
         print(new_instance.id)
 
     def help_create(self):
