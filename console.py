@@ -2,6 +2,7 @@
 """ The Console Module """
 import cmd
 import sys
+import re
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -19,16 +20,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+        }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+        }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -113,6 +114,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
+<<<<<<< HEAD
         """ Creates object of any class"""
         i = 0
         arguments = args.split(" ")
@@ -140,12 +142,42 @@ class HBNBCommand(cmd.Cmd):
                     arg[1] = int(arg[1])
                     setattr(new_instance, arg[0], arg[1])
         storage.save()
+=======
+        """ Create an object of any class"""
+        split_string = args.split()
+        if not split_string:
+            print("** class name missing **")
+            return
+        class_name = split_string[0]
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        kwargs = {}
+        if len(split_string) > 1:
+            i = 1
+            while (i < len(split_string)):
+                if '=' in split_string[i]:
+                    k = split_string[i].split('=')[0]
+                    v = split_string[i].split('=')[1]
+                    if v[0] == '\"' or v[0] == "'":
+                        v = v.replace('_', ' ')
+                        v = v[1:-1]
+                    elif '.' in v:
+                        v = float(v)
+                    else:
+                        v = int(v)
+                    kwargs[k] = v
+                i += 1
+        new_instance = HBNBCommand.classes[class_name]()
+        new_instance.__dict__.update(kwargs)
+        new_instance.save()
+>>>>>>> master
         print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
-        print("[Usage]: create <className>\n")
+        print("[Usage]: create <className> <param 1> <param 2> <param 3>\n")
 
     def do_show(self, args):
         """ Method to show individual object """
@@ -335,6 +367,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
