@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" The Console Module """
+""" Console Module """
 import cmd
 import sys
 import re
@@ -14,7 +14,7 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
-    """ Contains the workings for our HBNB console"""
+    """ Contains the functionality for the HBNB console"""
 
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
@@ -40,11 +40,11 @@ class HBNBCommand(cmd.Cmd):
         """Reformat command line for advanced command syntax.
 
         Usage: <class name>.<command>([<id> [<*args> or <**kwargs>]])
-        (Brackets denote optional fields.)
+        (Brackets denote optional fields in usage example.)
         """
         _cmd = _cls = _id = _args = ''  # initialize line elements
 
-        # scan for general formating - ex: '.', '(', ')'
+        # scan for general formating - i.e '.', '(', ')'
         if not ('.' in line and '(' in line and ')' in line):
             return line
 
@@ -67,6 +67,7 @@ class HBNBCommand(cmd.Cmd):
 
                 # isolate _id, stripping quotes
                 _id = pline[0].replace('\"', '')
+                # possible bug here:
                 # empty quotes register as empty _id when replaced
 
                 # if arguments exist beyond _id
@@ -86,10 +87,10 @@ class HBNBCommand(cmd.Cmd):
         finally:
             return line
 
-    def postcmd(self, stop, line, end=None):
+    def postcmd(self, stop, line):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
-            print('(hbnb) ', 'end=''')
+            print('(hbnb) ', end='')
         return stop
 
     def do_quit(self, command):
@@ -97,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
         exit()
 
     def help_quit(self):
-        """ Prints help documentation for quit  """
+        """ Prints the help documentation for quit  """
         print("Exits the program with formatting\n")
 
     def do_EOF(self, arg):
@@ -106,11 +107,11 @@ class HBNBCommand(cmd.Cmd):
         exit()
 
     def help_EOF(self):
-        """ Prints help documentation for EOF """
+        """ Prints the help documentation for EOF """
         print("Exits the program without formatting\n")
 
     def emptyline(self):
-        """ Overrides emptyline method of CMD """
+        """ Overrides the emptyline method of CMD """
         pass
 
     def do_create(self, args):
@@ -150,12 +151,12 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: create <className> <param 1> <param 2> <param 3>\n")
 
     def do_show(self, args):
-        """ Method to show individual object """
+        """ Method to show an individual object """
         new = args.partition(" ")
         c_name = new[0]
         c_id = new[2]
 
-        # guard against trailing arguments
+        # guard against trailing args
         if c_id and ' ' in c_id:
             c_id = c_id.partition(' ')[0]
 
@@ -183,7 +184,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: show <className> <objectId>\n")
 
     def do_destroy(self, args):
-        """ Destroys a specific object """
+        """ Destroys a specified object """
         new = args.partition(" ")
         c_name = new[0]
         c_id = new[2]
@@ -234,7 +235,7 @@ class HBNBCommand(cmd.Cmd):
         print(print_list)
 
     def help_all(self):
-        """ Help information for all command """
+        """ Help information for the all command """
         print("Shows all objects, or all of a class")
         print("[Usage]: all <className>\n")
 
@@ -281,7 +282,7 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
             return
 
-        # determine if kwargs or args
+        # first determine if kwargs or args
         if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
             kwargs = eval(args[2])
             args = []  # reformat kwargs into list, ex: [<name>, <value>, ...]
@@ -313,7 +314,7 @@ class HBNBCommand(cmd.Cmd):
         # retrieve dictionary of current objects
         new_dict = storage.all()[key]
 
-        # iterate through attribute names and vals
+        # iterate through attr names and values
         for i, att_name in enumerate(args):
             # block only runs on even iterations
             if (i % 2 == 0):
