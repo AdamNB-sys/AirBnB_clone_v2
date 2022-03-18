@@ -15,6 +15,11 @@ def hello():
     """uses Flask web app to display 'Hello HBNB!'"""
     return 'Hello HBNB!'
 
+@app.route('/hbnb', strict_slashes=False)
+def hbnb():
+    """uses Flask web app to display 'HBNB'"""
+    return 'HBNB'
+
 
 if __name__ == '__main__':
     """start the web app as a script"""
