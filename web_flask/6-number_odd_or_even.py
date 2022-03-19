@@ -56,7 +56,11 @@ def route_number_html(n):
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def route_odd_or_even(n):
     """uses Flask web app to serve an html page with a number"""
-    return render_template('6-number_odd_or_even', number=n)
+    if (n % 2) == 0:
+        eq = 'even'
+    else:
+        eq = 'odd'
+    return render_template('6-number_odd_or_even.html', number=n, oddEven=eq)
 
 
 if __name__ == '__main__':
