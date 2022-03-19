@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-#########################################
-# This script starts a flask web app    #
-# listening on 0.0.0.0, port 5000       #
-# routes: /: display "Hello HBNB"       #
-# with the option strict_slashes=False  #
-#########################################
+""""
+This script starts a flask web app
+listening on 0.0.0.0, port 5000
+routes: /: display "Hello HBNB"
+with the option strict_slashes=False
+"""
 from flask import Flask
 
 app = Flask(__name__)
