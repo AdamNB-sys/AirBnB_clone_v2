@@ -30,7 +30,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """Returns all instances"""
-        valid_classes = [City, State, User, Place, Review]
+        valid_classes = [City, State, User, Place, Review, Amenity]
         all_class = {}
         if cls in valid_classes:
             for k in self.__session.query(cls):
@@ -43,7 +43,7 @@ class DBStorage:
 
     def new(self, obj):
         """Adds obj to current db session"""
-        valid_classes = [City, State, User, Place, Review]
+        valid_classes = [City, State, User, Place, Review, Amenity]
         if type(obj) in valid_classes:
             self.__session.add(obj)
 
