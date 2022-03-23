@@ -7,16 +7,16 @@ with the option strict_slashes=False
 """
 from flask import Flask, render_template
 from models import storage
-from models.state import State
+from models.state import State, City
 
 app = Flask(__name__)
 
 
 @app.route('/states_list', strict_slashes=False)
 def hello():
-    """uses Flask web app to display an ordered list of states"""
+    """uses Flask web app to display states and cities"""
     states = storage.all(State)
-    return render_template('7-states_list.html', states=states)
+    return render_template('8-cities_by_states.html', )
 
 
 if __name__ == '__main__':
