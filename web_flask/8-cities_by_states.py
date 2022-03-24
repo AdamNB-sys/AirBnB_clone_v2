@@ -7,16 +7,22 @@ with the option strict_slashes=False
 """
 from flask import Flask, render_template
 from models import storage
-from models.state import State, City
+from models.state import State
 
 app = Flask(__name__)
 
 
-@app.route('/states_list', strict_slashes=False)
+@app.route('/cities_by_states', strict_slashes=False)
 def hello():
     """uses Flask web app to display states and cities"""
     states = storage.all(State)
-    return render_template('8-cities_by_states.html', )
+    return render_template('8-cities_by_states.html', states=states)
+
+
+@app.teardown_appcontext
+def teardown(app):
+    """removes the current session"""
+    storage.close()
 
 
 if __name__ == '__main__':
